@@ -1,10 +1,10 @@
 
 """--------------------IMPORTS--------------------"""
-# librerias de python
+# python libraries
 import argparse
 import asyncio
 
-# modulos propios
+# project modules
 from app import app
 
 
@@ -13,24 +13,19 @@ from app import app
 
 if __name__ == '__main__':
 
-    # se utiliza la libreria argparse para poder usar argumentos de control en el momento de ejecucion
-    # estos argumentos seran: tipo de sensor (real o mocked), frecuencia de lectura y rango (en caso de sensor mocked)
+    # the argparse library is used in order to be able to use control arguments at launch
+    # these arguments will be: type of sensor (real or mocked), reading frequency and mockup range
 
-    # se inicializa el objeto de la clase ArgumentParser que recogerá los argumentos en la ejecución
     parser = argparse.ArgumentParser(description='App')
-
-    # primer argumento: tipo de sensor a utilizar, obligatorio
-    parser.add_argument('--sensor', type= str, required=True, help='Introduce el tipo de sensor a emplear (real | mockup)')
-
-    # segundo argumento: tiempo de lectura (periodo) en segundos, obligatorio
-    parser.add_argument('--frec', type=int, required=True, help='Introduce la frecuencia de lectura del sensor (en segundos)')
-
-    # tercer argumento: rango de valores simulados
-    parser.add_argument('--rango_min', type=int, required=False, help='Introduce el minimo para valores generados en caso de sensor mockup')
-    # cuarto argumento: maximo para el rango de valores simulados
-    parser.add_argument('--rango_max', type=int, required=False, help='Introduce el maximo para valores generados en caso de sensor mockup')
+    parser.add_argument('--sensor', type= str, required=True, 
+                        help='Enter the sensor type (real | mockup)')
+    parser.add_argument('--frec', type=int, required=True, 
+                        help='Enter the reading frequency (seconds)')
+    parser.add_argument('--min_range', type=int, required=False, 
+                        help='Enter minimum for generated values in case of mockup sensor')
+    parser.add_argument('--max_range', type=int, required=False, 
+                        help='Enter maximum for generated values in case of mockup sensor')
 
     args = parser.parse_args()
 
-    # app es la funcion que encapsula la aplicacion de ejecucion ciclica
-    asyncio.run(app(args.sensor, args.frec, args.rango_min, args.rango_max))
+    asyncio.run(app(args.sensor, args.frec, args.min_range, args.max_range))
